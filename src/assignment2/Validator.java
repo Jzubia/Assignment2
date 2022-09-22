@@ -1,3 +1,8 @@
+/* EE422C Assignment #2 submission by
+ * <Jason Zubia>
+ * <jgz279>
+ */
+
 package assignment2;
 
 import java.util.regex.Matcher;
