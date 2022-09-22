@@ -18,7 +18,7 @@ public class Driver
         Validator validator = new Validator(false);
 
         // Specifies if testingMode is enabled
-        boolean testingMode = false;
+        boolean testingMode = true;
 
         // Checks the CLA for testing mode
         if(args.length != 0)

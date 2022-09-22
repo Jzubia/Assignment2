@@ -79,7 +79,7 @@ public class Dialogue
 
     static public void invalidFeedback(BoardState currentState)
     {
-        System.out.print("\n" + currentState.playerResponse + " -> INVALID GUESS");
+        System.out.println("\n" + currentState.playerResponse + " -> INVALID GUESS");
     }
 
     static public void youLose()
@@ -94,6 +94,6 @@ public class Dialogue
 
     static public void playAgain()
     {
-        System.out.print("Are you ready for another game (Y/N): ");
+        System.out.print("\nAre you ready for another game (Y/N): ");
     }
 }
