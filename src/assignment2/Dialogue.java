@@ -25,7 +25,8 @@ public class Dialogue
                 "Red, and so forth. When entering guesses you only need to enter the \n" +
                 "first character of each color as a capital letter. \n" +
                 " \n" +
-                "You  have  12  guesses  to  figure  out  the  secret  code  or  you  lose  the \n" +
+                "You  have  " + GameConfiguration.guessNumber +
+                " guesses  to  figure  out  the  secret  code  or  you  lose  the \n" +
                 "game.  Are you ready to play? (Y/N):  ");
     }
 
