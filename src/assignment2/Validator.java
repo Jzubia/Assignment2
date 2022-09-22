@@ -26,6 +26,11 @@ public class Validator
 
         return matcher.find();
     }
+
+    public boolean validateHistory(String playerResponse)
+    {
+        return playerResponse.equals("HISTORY");
+    }
     public void validatePlayerGuess(String playerResponse)
     {
         validGuess = !checkCasing(playerResponse) && checkGuessLength(playerResponse) &&

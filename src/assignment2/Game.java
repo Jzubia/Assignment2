@@ -27,16 +27,28 @@ public class Game
         BoardState gameBoard = new BoardState("", 0,
                 0, secretCode, GameConfiguration.guessNumber);
 
+        // Creates Game History
+        History gameHistory = new History(GameConfiguration.guessNumber);
+
         // Generates secret code line with/without secret code depending on game mode
         Dialogue.generatingSecretCode(gameMode, secretCode);
 
         // Start of game begin to prompt the user for their guess
         Dialogue.firstGuess();
 
+        int counter = 0;
+
         while(gameBoard.getNumberOfGuessesRemaining() > 0)
         {
             // Gets player response and saves it.
             gameBoard.playerResponse = playerInput.next();
+
+            if(validator.validateHistory(gameBoard.playerResponse))
+            {
+                gameHistory.printHistory(counter);
+                Dialogue.guessesLeft(gameBoard.getNumberOfGuessesRemaining());
+                gameBoard.playerResponse = playerInput.next();
+            }
 
             // Validates user input
             validator.validatePlayerGuess(gameBoard.playerResponse);
@@ -49,14 +61,21 @@ public class Game
                     Dialogue.youWin();
                     break;
                 }
+
                 Dialogue.validFeedback(gameBoard);
+
+                gameHistory.updateHistory(gameBoard.playerResponse, gameBoard.getNumberOfBlackPegs(),
+                        gameBoard.getNumberOfWhitePegs(), counter);
+                counter++;
                 gameBoard.updateNumberOfGuessesRemaining();
 
                 if(gameBoard.getNumberOfGuessesRemaining() == 0)
                 {
                     Dialogue.youLose();
+                    System.out.println(secretCode);
                     break;
                 }
+
                 Dialogue.guessesLeft(gameBoard.getNumberOfGuessesRemaining());
             }
             else

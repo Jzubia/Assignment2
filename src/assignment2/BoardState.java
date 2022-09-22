@@ -1,9 +1,5 @@
 package assignment2;
 
-import java.util.Arrays;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 public class BoardState
 {
     String playerResponse;
