@@ -9,6 +9,10 @@ public class Driver
         // Scans input from keyboard
         Scanner input = new Scanner(System.in);
 
+        // Creates the validator, validates user input
+        Validator validator = new Validator(false);
+
+        // Specifies if testingMode is enabled
         boolean testingMode = true;
 
         // Checks the CLA for testing mode
@@ -18,14 +22,25 @@ public class Driver
         }
 
         // Create a game
-        Game masterMind = new Game(testingMode, input);
+        Game masterMind = new Game(testingMode, input, validator);
 
-        // Main game engine, runs the game
-        masterMind.runGame();
+        // Dialogue class will display the game intro
+        Dialogue.initialGreeting();
 
+        // Gets player response and saves it.
+        String playGame = input.next();
+
+        // If player is not ready, terminate the game
+        while(validator.validateYes(playGame))
+        {
+            // Main game engine, runs the game
+            masterMind.runGame();
+
+            // Prompt the user if they would like to play again
+            Dialogue.playAgain();
+
+            // Ask for user input
+            playGame = input.next();
+        }
     }
-
-
-
-
 }

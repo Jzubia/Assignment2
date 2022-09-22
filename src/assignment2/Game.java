@@ -7,63 +7,61 @@ public class Game
     // Specifies if secret code should be shown
     boolean gameMode;
     Scanner playerInput;
+    Validator validator;
 
     // Constructor
-    public Game(boolean testingMode, Scanner input)
+    public Game(boolean testingMode, Scanner input, Validator validator)
     {
         gameMode = testingMode;
         playerInput = input;
+        this.validator = validator;
     }
 
     public void runGame()
     {
-        // Saving gameConfig Guesses to local var
-        int numberOfGuesses = GameConfiguration.guessNumber;
-
-        // Indicates if player input was valid
-        boolean validGuess = true;
-
-        // Dialogue class will display the game intro
-        Dialogue.initialGreeting();
-
-        // Gets player response and saves it.
-        String playerResponse = playerInput.next();
-
-        // If player is not ready, terminate the game
-        if(playerResponse.equals("N") || !playerResponse.equals("Y")) // TODO verify user input is Y or N
-        {
-            System.exit(0);
-        }
 
         // Generates secretCode
         String secretCode = SecretCodeGenerator.getInstance().getNewSecretCode();
+
+        // Creates a gameBoard state
+        BoardState gameBoard = new BoardState("", 0,
+                0, secretCode, GameConfiguration.guessNumber);
 
         // Generates secret code line with/without secret code depending on game mode
         Dialogue.generatingSecretCode(gameMode, secretCode);
 
         // Start of game begin to prompt the user for their guess
-        Dialogue.guessesLeft(numberOfGuesses);
+        Dialogue.firstGuess();
 
-        while(numberOfGuesses != 0)
+        while(gameBoard.getNumberOfGuessesRemaining() > 0)
         {
             // Gets player response and saves it.
-            playerResponse = playerInput.next();
-
-
-            Validator validator = new Validator(playerResponse);
+            gameBoard.playerResponse = playerInput.next();
 
             // Validates user input
-            validGuess = validator.validatePlayerGuess(playerResponse);
+            validator.validatePlayerGuess(gameBoard.playerResponse);
 
-            if(validGuess)
+            if(validator.getValidGuess())
             {
-                Dialogue.validFeedback(playerResponse);
-                numberOfGuesses--;
-                Dialogue.guessesLeft(numberOfGuesses);
+                if(gameBoard.playerWin())
+                {
+                    Dialogue.validFeedback(gameBoard);
+                    Dialogue.youWin();
+                    break;
+                }
+                Dialogue.validFeedback(gameBoard);
+                gameBoard.updateNumberOfGuessesRemaining();
+
+                if(gameBoard.getNumberOfGuessesRemaining() == 0)
+                {
+                    Dialogue.youLose();
+                    break;
+                }
+                Dialogue.guessesLeft(gameBoard.getNumberOfGuessesRemaining());
             }
             else
             {
-                Dialogue.invalidFeedback(playerResponse);
+                Dialogue.invalidFeedback(gameBoard);
                 Dialogue.invalidGuess();
             }
         }

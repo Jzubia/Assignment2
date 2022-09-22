@@ -5,19 +5,34 @@ import java.util.regex.Pattern;
 
 public class Validator
 {
-    String playerResponse;
+    private boolean validGuess;
 
-    public Validator(String playerResponse)
+    public Validator(boolean validGuess)
     {
-        this.playerResponse = playerResponse;
+        this.validGuess = validGuess;
     }
 
-    public boolean validatePlayerGuess(String playerResponse)
+    public boolean getValidGuess()
     {
-        return !checkCasing() && checkGuessLength() && checkGuessColors();
+        return validGuess;
     }
 
-    private boolean checkCasing()
+    public boolean validateYes(String playerResponse)
+    {
+        // Regex pattern to check if input is Y or N
+        Pattern no = Pattern.compile("^Y$");
+
+        Matcher matcher = no.matcher(playerResponse);
+
+        return matcher.find();
+    }
+    public void validatePlayerGuess(String playerResponse)
+    {
+        validGuess = !checkCasing(playerResponse) && checkGuessLength(playerResponse) &&
+                checkGuessColors(playerResponse);
+    }
+
+    private boolean checkCasing(String playerResponse)
     {
         // Regex pattern to check if any input is lower-case
         Pattern lowerCase = Pattern.compile("[a-z]");
@@ -27,12 +42,12 @@ public class Validator
         // False if invalid guess, True if valid guess
         return matcher.find();
     }
-    private boolean checkGuessLength()
+    private boolean checkGuessLength(String playerResponse)
     {
         return playerResponse.length() == GameConfiguration.pegNumber;
     }
 
-    private boolean checkGuessColors()
+    private boolean checkGuessColors(String playerResponse)
     {
         String pegColors = String.join("", GameConfiguration.colors);
         Pattern colors = Pattern.compile("^[" + pegColors + "]{" + GameConfiguration.pegNumber + "}$");

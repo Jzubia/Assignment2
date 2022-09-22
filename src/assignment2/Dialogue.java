@@ -41,9 +41,17 @@ public class Dialogue
         }
     }
 
+    static public void firstGuess()
+    {
+        System.out.print("\nYou have " + GameConfiguration.guessNumber + " guesses left. \n" +
+                "What is your next guess? \n" +
+                "Type in the characters for your guess and press enter. \n" +
+                "Enter guess: ");
+    }
+
     static public void guessesLeft(int numberOfGuesses)
     {
-        System.out.print("\nYou have " + numberOfGuesses + " guesses left. \n" +
+        System.out.print("\n\nYou have " + numberOfGuesses + " guesses left. \n" +
                 "What is your next guess? \n" +
                 "Type in the characters for your guess and press enter. \n" +
                 "Enter guess: ");
@@ -56,19 +64,30 @@ public class Dialogue
                 "Enter guess: ");
     }
 
-    static public void validFeedback(String playerResponse)
+    static public void validFeedback(BoardState currentState)
     {
-        System.out.println("\n" + playerResponse + " -> Result: 0B_0W");
+        System.out.print("\n" + currentState.playerResponse + " -> " +
+                "Result: " + currentState.getNumberOfBlackPegs() + "B_" +
+                currentState.getNumberOfWhitePegs() +"W");
     }
 
-    static public void invalidFeedback(String playerResponse)
+    static public void invalidFeedback(BoardState currentState)
     {
-        System.out.println("\n" + playerResponse + " -> INVALID GUESS");
+        System.out.print("\n" + currentState.playerResponse + " -> INVALID GUESS");
     }
 
     static public void youLose()
     {
-        System.out.println("Sorry, you are out of guesses. You lose, boo-hoo.");
+        System.out.println(" - Sorry, you are out of guesses. You lose, boo-hoo.");
     }
 
+    static public void youWin()
+    {
+        System.out.println(" - You win !!\n");
+    }
+
+    static public void playAgain()
+    {
+        System.out.print("Are you ready for another game (Y/N): ");
+    }
 }
