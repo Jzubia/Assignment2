@@ -72,7 +72,6 @@ public class Game
                 if(gameBoard.getNumberOfGuessesRemaining() == 0)
                 {
                     Dialogue.youLose();
-                    System.out.println(secretCode);
                     break;
                 }
 
