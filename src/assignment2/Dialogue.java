@@ -89,7 +89,7 @@ public class Dialogue
 
     static public void youWin()
     {
-        System.out.println(" - You win !!\n");
+        System.out.println(" - You win !!");
     }
 
     static public void playAgain()
